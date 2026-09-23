@@ -23,13 +23,17 @@ public class Percolation {
         try {
             this.grid[row-1][col-1] = 1;
             if (row != 1){
-                this.uf.union((row-1)*(col-1)+1,(row-2)*(col-1)+1);
+                if (this.grid[row-2][col-1]==1) {
+                    this.uf.union((row - 1) * (col - 1) + 1, (row - 2) * (col - 1) + 1);
+                }
             } if (row != n){
-                this.uf.union((row-1)*(col-1)+1,(row)*(col-1)+1);
+                if (this.grid[row][col-1]==1) {
+                    this.uf.union((row - 1) * (col - 1) + 1, (row) * (col - 1) + 1);
+                }
             } if (col != 1){
-                this.uf.union((row-1)*(col-1)+1,(row-1)*(col-2)+1);
+                if (this.grid[row-1][col-2]==1) {this.uf.union((row-1)*(col-1)+1,(row-1)*(col-2)+1);}
             } if (col != n){
-                this.uf.union((row-1)*(col-1)+1,(row-1)*(col)+1);
+                if (this.grid[row-1][col]==1) { this.uf.union((row-1)*(col-1)+1,(row-1)*(col)+1);}
             }
         } catch(Exception e) {
             throw new IllegalArgumentException("Out of bounds");
@@ -44,15 +48,14 @@ public class Percolation {
     }
     public boolean isFull(int row, int col){
         try {
-            return this.uf.connected(0, (row-1)*(col-1)+1);
+            return (this.uf.connected(0, (row-1)*(col-1)+1) && this.isOpen(row, col));
         } catch(Exception e){
-            throw new IllegalArgumentException("out of bounds");
+            throw new IllegalArgumentException("Out of bounds");
         }
     }
     public boolean percolates(){
         return this.uf.connected(0, n*n+1);
     }
     public static void main(String[] args) {
-
     }
 }

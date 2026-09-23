@@ -2,7 +2,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-
+    /*
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials){
 
@@ -31,4 +31,6 @@ public class PercolationStats {
     public static void main(String[] args) {
 
     }
+         */
+
 }
