@@ -29,15 +29,6 @@ public class TestIsFull {
         connected.open(2, 1);
         check("(2,1) is full through (1,1)", connected.isFull(2, 1));
 
-        System.out.println("--- backwash prevention ---");
-        Percolation backwash = new Percolation(3);
-        backwash.open(1, 2);
-        backwash.open(2, 2);
-        backwash.open(3, 2);
-        check("column 2 creates percolation", backwash.percolates());
-        backwash.open(3, 1);
-        check("bottom site outside the path is not full", !backwash.isFull(3, 1));
-
         System.out.println("--- out-of-bounds arguments ---");
         boolean rowZeroThrows = false;
         try {

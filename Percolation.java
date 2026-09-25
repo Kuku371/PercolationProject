@@ -24,21 +24,24 @@ public class Percolation {
             this.grid[row-1][col-1] = 1;
             if (row != 1){
                 if (this.grid[row-2][col-1]==1) {
-                    this.uf.union((row - 1) * (col - 1) + 1, (row - 2) * (col - 1) + 1);
+                    this.uf.union((row - 1) * this.n + (col - 1) + 1, (row - 2) * this.n + (col - 1) + 1);
                 }
             } if (row != n){
                 if (this.grid[row][col-1]==1) {
-                    this.uf.union((row - 1) * (col - 1) + 1, (row) * (col - 1) + 1);
+                    this.uf.union((row - 1) * this.n + (col - 1) + 1, (row) * this.n + (col - 1) + 1);
                 }
             } if (col != 1){
-                if (this.grid[row-1][col-2]==1) {this.uf.union((row-1)*(col-1)+1,(row-1)*(col-2)+1);}
+                if (this.grid[row-1][col-2]==1) {this.uf.union((row-1)*this.n+(col-1)+1,(row-1)*this.n+(col-2)+1);}
             } if (col != n){
-                if (this.grid[row-1][col]==1) { this.uf.union((row-1)*(col-1)+1,(row-1)*(col)+1);}
+                if (this.grid[row-1][col]==1) { this.uf.union((row-1)*this.n+(col-1)+1,(row-1)*this.n+(col)+1);}
             }
         } catch(Exception e) {
             throw new IllegalArgumentException("Out of bounds");
         }
     }
+
+
+
     public boolean isOpen(int row, int col){
         try {
             return (this.grid[row-1][col-1]==1);
@@ -48,13 +51,31 @@ public class Percolation {
     }
     public boolean isFull(int row, int col){
         try {
-            return (this.uf.connected(0, (row-1)*(col-1)+1) && this.isOpen(row, col));
+            if ((row-1)*this.n+(col-1)+1==n*n+1 || (row-1)*this.n+(col-1)+1==0){
+                throw new IllegalArgumentException("Out of bounds");
+            }
+            return (this.uf.connected(0, (row-1)*this.n+(col-1)+1) && this.isOpen(row, col));
         } catch(Exception e){
             throw new IllegalArgumentException("Out of bounds");
         }
     }
+    public int numberOfOpenSites(){
+        int s =0;
+        for (int i =1; i<=n; i++){
+            for (int j=1; j<=n; j++){
+                if (this.isOpen(i,j)){
+                    s+=1;
+                }
+            }
+        }
+        return s;
+    }
     public boolean percolates(){
-        return this.uf.connected(0, n*n+1);
+        if (n>1) {
+            return this.uf.connected(0, n * n + 1);
+        } else {
+            return this.isOpen(1,1);
+        }
     }
     public static void main(String[] args) {
     }
